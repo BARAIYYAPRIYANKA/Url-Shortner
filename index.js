@@ -4,6 +4,7 @@ import path from "path";
 import express from "express";
 import { nanoid } from "nanoid";
 
+// Helper function to validate URLs
 const isUrlValid = (url) => {
   try {
     new URL(url);
@@ -27,10 +28,12 @@ if (!fs.existsSync(urlsFilePath)) {
   fs.writeFileSync(urlsFilePath, JSON.stringify({}));
 }
 
+// Serve the HTML form
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "urlform.html"));
 });
 
+// Endpoint to shorten URLs
 app.post("/shorten", (req, res) => {
   const { longUrl } = req.body;
   if (!isUrlValid(longUrl)) {
@@ -65,6 +68,7 @@ app.post("/shorten", (req, res) => {
   });
 });
 
+// Endpoint to redirect short URLs
 app.get("/:shortUrl", (req, res) => {
   const { shortUrl } = req.params;
 
